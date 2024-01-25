@@ -227,6 +227,16 @@ class AdminController extends Controller
         $activity = DB::table('activitys')->paginate(10);
         return view('admin.viewactivity', ['items' => $activity]);
     }
+    
+    //------------- Admin View All Activity-------------//
+    public function viewalocateactivity()
+    {
+        $activity = DB::table('activitys as a')
+        ->join('activitylinks as al', 'a.id', '=', 'al.activity_id')
+        ->join('centres as c', 'al.centre_id', '=', 'c.centre_id')
+        ->paginate(10,['a.id', 'a.name as a_name', 'c.centre_id', 'c.name']);
+        return view('admin.viewalocateactivity', ['items' => $activity]);
+    }
 
     
     //------------- Admin Create Activity-------------//
@@ -242,7 +252,7 @@ class AdminController extends Controller
     {
         $user = Auth::getUser();
         $inserted = DB::table('activitys')->insert([
-            'activity_id' => $request->activity,
+            'name' => $request->name,
         ]);
 
         if ($inserted) {
@@ -253,8 +263,15 @@ class AdminController extends Controller
             ->withErrors('Failed to Create Course');
     }
 
-    //------------- Adding Activity -------------//
-    public function alocateactivity(Request $request)
+    //------------- Admin alocate Activity-------------//
+    public function alocateactivity()
+    {
+        $user = Auth::getUser();
+        $activity = DB::table('activitys')->orderBy('name')->get();
+        return view('admin.alocateactivity', ['items' => $activity]);
+    }
+    //------------- Adding alocate Activity -------------//
+    public function addalocateactivity(Request $request)
     {
         $user = Auth::getUser();
         $inserted = DB::table('activitylinks')->insert([
@@ -263,10 +280,10 @@ class AdminController extends Controller
         ]);
 
         if ($inserted) {
-            return redirect(route('admin.createactivity'))
+            return redirect(route('admin.alocateactivity'))
                 ->withSuccess('Your Course have been Created successfully!');
         }
-        return redirect(route('admin.createactivity'))
+        return redirect(route('admin.alocateactivity'))
             ->withErrors('Failed to Create Course');
     }
 };

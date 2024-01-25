@@ -222,4 +222,18 @@ class StudentController extends Controller
         ]);
         return back()->withSuccess('Marked Present For ' . date(today()));
     }
+
+
+
+//------------- ALL Student Data -------------//
+public function all_student_data(Request $request)
+{
+    if($request->id){
+        $students = DB::table('students')->where('id', $request->id)->get();
+        return $students;
+    }
+    $students = DB::table('students')->get();
+        return $students;
+}
+    
 }

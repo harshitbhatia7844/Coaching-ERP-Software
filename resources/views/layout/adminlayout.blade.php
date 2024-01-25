@@ -82,7 +82,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Branch</h6>
                         <a class="collapse-item" href="{{ route('admin.viewbranch') }}">View All Branch</a>
-                        <a class="collapse-item" href="{{ route('admin.createbranch') }}">Register Branch</a>
+                        <a class="collapse-item" href="{{ route('admin.createbranch') }}">Alocate Branch</a>
                     </div>
                 </div>
             </li>
@@ -99,6 +99,8 @@
                         <h6 class="collapse-header">Activity</h6>
                         <a class="collapse-item" href={{ route('admin.viewactivity') }}>View Activity</a>
                         <a class="collapse-item" href={{ route('admin.createactivity') }}>Add Activity</a>
+                        <a class="collapse-item" href={{ route('admin.viewalocateactivity') }}>View Alocated Activity</a>
+                        <a class="collapse-item" href={{ route('admin.alocateactivity') }}>Alocate Activity</a>
                     </div>
                 </div>
             </li>

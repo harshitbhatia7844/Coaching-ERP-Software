@@ -91,13 +91,13 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSeven"
                     aria-expanded="true" aria-controls="collapseSeven">
                     <i class="fa fa-book-open fa-fw"></i>
-                    <span>Batch</span>
+                    <span>Subjects</span>
                 </a>
                 <div id="collapseSeven" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">My Batch</h6>
-                        <a class="collapse-item" href={{ route('student.batch') }}>Subjects</a>
-                        <a class="collapse-item" href={{ route('student.batch') }}>Previous Batch</a>
+                        <h6 class="collapse-header">Subjects</h6>
+                        <a class="collapse-item" href={{ route('student.batch') }}>Recent Subjects</a>
+                        <a class="collapse-item" href={{ route('student.batch') }}>Previous Subjects</a>
                     </div>
                 </div>
             </li>

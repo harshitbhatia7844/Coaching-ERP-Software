@@ -103,8 +103,11 @@ Route::prefix('/admin')->name('admin.')
             Route::get('/viewcentre', 'viewcentre')->name('viewcentre');
             Route::get('/viewbranch', 'viewbranch')->name('viewbranch');
             Route::get('/createactivity', 'createactivity')->name('createactivity');
+            Route::get('/alocateactivity', 'alocateactivity')->name('alocateactivity');
+            Route::get('/viewalocateactivity', 'viewalocateactivity')->name('viewalocateactivity');
             Route::post('/store', 'store')->name('store');
             Route::post('/addactivity', 'addactivity')->name('addactivity');
+            Route::post('/addalocateactivity', 'addalocateactivity')->name('addalocateactivity');
             Route::post('/addbranch', 'addbranch')->name('addbranch');
             Route::view('/createcentre', 'admin.createcentre')->name('createcentre');
             Route::view('/createbranch', 'admin.createbranch')->name('createbranch');

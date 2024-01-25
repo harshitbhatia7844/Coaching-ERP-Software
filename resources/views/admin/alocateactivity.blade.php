@@ -4,7 +4,7 @@
         <div class="container h-100">
             <div class="row d-flex justify-content-center align-items-center">
                 <div class="col-xl-9">
-                    <h1 class="text-primary">Add Activity</h1>
+                    <h1 class="text-primary">Alocate Activity</h1>
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>
@@ -20,11 +20,24 @@
                             </ul>
                         </div>
                     @endif
-                    <form action="{{ route('admin.addactivity') }}" method="post">
+                    <form action="{{ route('admin.addalocateactivity') }}" method="post">
                         @csrf
                         <div class="card mb-5" style="border-radius: 15px;">
                             <div class="card-body">
-                                
+                                <div class="row align-items-center pt-4 pb-3">
+                                    <div class="col-md-3 ps-5">
+
+                                        <h6 class="mb-0">Centre ID</h6>
+
+                                    </div>
+                                    <div class="col-md-9 pe-5">
+
+                                        <input class="form-control form-control-lg" type="text" name="centre_id" placeholder="Centre ID" />
+
+                                    </div>
+                                </div>
+
+                                <hr class="mx-n3">
                                 <div class="row align-items-center pt-4 pb-3">
                                     <div class="col-md-3 ps-5">
 
@@ -33,7 +46,12 @@
                                     </div>
                                     <div class="col-md-9 pe-5">
 
-                                        <input class="form-control form-control-lg" type="text" name="name" placeholder="Activity Name" />
+                                        <select class="form-control form-control-lg" name="activity_id" id="">
+                                            <option default hidden>Select Activity</option>
+                                            @foreach ($items as $i)
+                                            <option value="{{$i->id}}">{{$i->name}}</option>
+                                            @endforeach
+                                        </select>
 
                                     </div>
                                 </div>
@@ -41,7 +59,7 @@
                                 <hr class="mx-n3">
 
                                 <div class="px-5 py-4">
-                                    <button type="submit" class="btn btn-primary btn-lg">Add Activity</button>
+                                    <button type="submit" class="btn btn-primary btn-lg">Alocate Activity</button>
                                 </div>
 
                             </div>
