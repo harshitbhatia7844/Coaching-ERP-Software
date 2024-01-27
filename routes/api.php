@@ -22,8 +22,6 @@ use Illuminate\Support\Facades\Route;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-// Route::get('/get_student_api',[StudentController::class,'all_student_data']);
-
 
 Route::get('/get_student_api/{id?}', function ($id = NULL) {
     if($id){

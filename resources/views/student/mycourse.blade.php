@@ -1,6 +1,6 @@
 @extends('layout.studentlayout')
 @section('content')
-    <h1 class="text-primary">View All Courses</h1>
+    <h1 class="text-primary">My Courses</h1>
 
     <div class="container d-flex justify-content-center mt-50 mb-50">
         <div class="row">
@@ -34,8 +34,8 @@
                                 </div>
 
                                 <div class="d-fle justify-content-around">
-                                    <a href="{{route('student.paynow')}}?course_id={{$item->course_id}}&batch_id={{$item->batch_id}}" class="btn btn-outline-primary w-100 mb-1">Explore</a>
-                                    <a href="{{route('student.paynow')}}?course_id={{$item->course_id}}&batch_id={{$item->batch_id}}" class="btn btn-primary w-100 ">Buy Now</a>
+                                    <a href="#" class="btn btn-outline-primary w-100 mb-1">Explore</a>
+                                    <a class="btn btn-success w-100 ">Purchased</a>
                                 </div>
                             </div>
                         </div>

@@ -3,12 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\attendance;
 use App\Models\enrollment;
 use App\Models\Student;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -45,8 +42,6 @@ class StudentController extends Controller
     public function dashboard()
     {
         $user = Auth::getUser();
-        $today = DB::table('attendance')->where('student_id', $user->id)
-            ->where('date', date(today()))->count();
         $balance = $user->wallet_balance;
         $batch = DB::table('batches as b')
             ->join('enrollments as e', 'b.batch_id', 'e.batch_id')
@@ -54,7 +49,7 @@ class StudentController extends Controller
         $total = DB::table('attendance')->where('student_id', $user->id)->count();
         $present = DB::table('attendance')->where('student_id', $user->id)
             ->where('status', '1')->count();
-        $attendance = $present * 100 / ($total?:1);
+        $attendance = $present * 100 / ($total ?: 1);
         $fees = DB::table('enrollments')->where('student_id', $user->id)->sum('amount');
         return view('student.index', [
             'fees' => $fees,
@@ -67,13 +62,8 @@ class StudentController extends Controller
     //------------- Student Profile -------------//
     public function profile()
     {
-        if (Auth::guard('student')->check()) {
-            $user = Auth::getUser();
-            return view('student.profile', $user);
-        }
-
-        return redirect()->route('admin.login')
-            ->withErrors('Please login to access the dashboard.');
+        $user = Auth::getUser();
+        return view('student.profile', $user);
     }
 
     //------------- Wallet Balance -------------//
@@ -90,8 +80,8 @@ class StudentController extends Controller
     {
         $s_id = Auth::getUser();
         $enrolled = DB::table('enrollments')->where('student_id', $s_id->id)
-        ->where('batch_id',$request->batch_id)->first();
-        if($enrolled){
+            ->where('batch_id', $request->batch_id)->first();
+        if ($enrolled) {
             return back()->withErrors('Already enrolled in this Batch/Course');
         }
         $user = Student::where('id', $s_id->id)->first();
@@ -132,15 +122,29 @@ class StudentController extends Controller
     }
 
     //------------- Student batch -------------//
-    public function batch()
+    public function recentbatch()
     {
         $user = Auth::getUser();
         $batches = DB::table('batches as b')
             ->join('courses as c', 'b.course_id', '=', 'c.course_id')
             ->join('enrollments as e', 'b.batch_id', '=', 'e.batch_id')
-            ->where('e.student_id', $user->id)->get(['b.*', 'c.*']);
-        // dd($batches);
-        return view('student.mybatch', ['batches' => $batches]);
+            ->where('e.student_id', $user->id)
+            ->where('end_time', '>=', date(today()))
+            ->get(['b.*', 'c.*']);
+        return view('student.recentbatch', ['batches' => $batches]);
+    }
+
+    //------------- Student batch -------------//
+    public function previousbatch()
+    {
+        $user = Auth::getUser();
+        $batches = DB::table('batches as b')
+            ->join('courses as c', 'b.course_id', '=', 'c.course_id')
+            ->join('enrollments as e', 'b.batch_id', '=', 'e.batch_id')
+            ->where('e.student_id', $user->id)
+            ->where('end_time', '<', date(today()))
+            ->get(['b.*', 'c.*']);
+        return view('student.previousbatch', ['batches' => $batches]);
     }
 
     //------------- Notification -------------//
@@ -149,9 +153,9 @@ class StudentController extends Controller
         $user = Auth::getUser();
         $general = DB::table('generalnotifications')->where('centre_id', $user->centre_id)->get();
         $batch = DB::table('enrollments')->where('student_id', $user->id)->first();
-        $notis = DB::table('notifications')->where('batch_id', $batch?$batch->batch_id:'-1')->get();
+        $notification = DB::table('notifications')->where('batch_id', $batch ? $batch->batch_id : '-1')->get();
         return view('student.notification', [
-            'notification' => $notis,
+            'notification' => $notification,
             'general' => $general
         ]);
     }
@@ -173,7 +177,9 @@ class StudentController extends Controller
     {
         $user = Auth::getUser();
         $courses = DB::table('courses')
+            ->join('batches', 'batches.course_id', '=', 'courses.course_id')
             ->where('branch_id', $user->branch_id)
+            ->where('end_time', '>=', date(today()))
             ->paginate(10);
         return view('student.viewcourse', ['items' => $courses]);
     }
@@ -183,27 +189,22 @@ class StudentController extends Controller
     {
         $user = Auth::getUser();
         $courses = DB::table('courses as c')
-        ->join('batches as b', 'c.course_id', "=", 'b.course_id')
-        ->join('enrollments as e', 'b.batch_id', '=', 'e.batch_id')
+            ->join('batches as b', 'c.course_id', "=", 'b.course_id')
+            ->join('enrollments as e', 'b.batch_id', '=', 'e.batch_id')
             ->where('student_id', $user->id)
-            ->paginate(10);
-        return view('student.viewcourse', ['items' => $courses]);
+            ->get();
+        return view('student.mycourse', ['items' => $courses]);
     }
 
     //------------- PayNow -------------//
     public function paynow(Request $request)
     {
-        $course_id = $request->course_id;
-        $user = Auth::getUser();
-        $course = DB::table('courses')->where('course_id', $request->course_id)->first();
-        $batch = DB::table('batches')->where('course_id', $request->course_id)->get();
-        $data = [
-            'title' => $course->title,
-            'description' => $course->description,
-            'price' => $course->price,
-            'batches' => $batch
-        ];
-        return view('student.paynow', $data);
+        $course = DB::table('courses as c')
+            ->join('batches as b', 'c.course_id', "=", 'b.course_id')
+            ->where('c.course_id', $request->course_id)
+            ->where('b.batch_id', $request->batch_id)
+            ->first();
+        return view('student.paynow', ['item' => $course]);
     }
 
     //------------- Present mark in attendance -------------//
@@ -222,18 +223,4 @@ class StudentController extends Controller
         ]);
         return back()->withSuccess('Marked Present For ' . date(today()));
     }
-
-
-
-//------------- ALL Student Data -------------//
-public function all_student_data(Request $request)
-{
-    if($request->id){
-        $students = DB::table('students')->where('id', $request->id)->get();
-        return $students;
-    }
-    $students = DB::table('students')->get();
-        return $students;
-}
-    
 }

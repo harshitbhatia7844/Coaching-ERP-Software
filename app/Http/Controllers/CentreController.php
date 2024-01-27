@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\centre;
-use App\Models\Student;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
@@ -267,7 +265,8 @@ class CentreController extends Controller
         $c_id = Auth::getUser();
         $user = centre::where('id', $c_id->id)->first();
         if ($user->wallet_balance < $request->price) {
-            return redirect()->route('centre.wallet')->withErrors('Low Balance in Your Wallet');
+            return redirect()->route('centre.wallet')
+                ->withErrors('Low Balance in Your Wallet');
         }
         $user->withdraw($request->price);
         $inserted = DB::table('branches')->insert([
@@ -284,7 +283,6 @@ class CentreController extends Controller
                 ->withSuccess('Your Branch have been Created successfully!');
         }
         return redirect(route('centre.viewbranch'));
-        // return back()->withSuccess('Successfully Withdraw INR 200 from Wallet');
     }
 
     //------------- Centre View All Courses -------------//
@@ -426,7 +424,7 @@ class CentreController extends Controller
                     ->where('e.batch_id', $request->batch_id)->get('s.*');
                 return view('centres.attendance', compact('students'));
             }
-            $students = DB::table('students as s')->where('id', 'shjbhtyg8875')->get();
+            $students = DB::table('students as s')->where('id', '-1')->get();
             return view('centres.attendance', compact('students'));
         }
     }
@@ -436,9 +434,9 @@ class CentreController extends Controller
     {
         $user = Auth::getUser();
         $general = DB::table('generalnotifications')->where('centre_id', $user->centre_id)->get();
-        $notis = DB::table('notifications')->get();
+        $notification = DB::table('notifications')->get();
         return view('centres.notification', [
-            'notification' => $notis,
+            'notification' => $notification,
             'general' => $general
         ]);
     }
@@ -453,7 +451,7 @@ class CentreController extends Controller
         return view('centres.viewactivity', ['items' => $activity]);
     }
 
-    
+
     //------------- Centre Create Activity-------------//
     public function createactivity()
     {

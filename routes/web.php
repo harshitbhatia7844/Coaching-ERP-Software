@@ -27,7 +27,8 @@ Route::prefix('/student')->name('student.')
             Route::get('/fees', 'fees')->name('fees');
             Route::get('/present', 'present')->name('present');
             Route::get('/paynow', 'paynow')->name('paynow');
-            Route::get('/batch', 'batch')->name('batch');
+            Route::get('/recentbatch', 'recentbatch')->name('recentbatch');
+            Route::get('/previousbatch', 'previousbatch')->name('previousbatch');
             Route::get('/mycourse', 'mycourse')->name('mycourse');
             Route::get('/viewcourse', 'viewcourse')->name('viewcourse');
             Route::get('/notification', 'notification')->name('notification');

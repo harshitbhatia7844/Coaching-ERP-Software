@@ -67,7 +67,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Courses</h6>
                         <a class="collapse-item" href={{ route('student.viewcourse') }}>All Courses</a>
-                        <a class="collapse-item" href={{ route('student.viewcourse') }}>My Courses</a>
+                        <a class="collapse-item" href={{ route('student.mycourse') }}>My Courses</a>
                     </div>
                 </div>
             </li>
@@ -81,8 +81,8 @@
                 <div id="collapseSix" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">My Batch</h6>
-                        <a class="collapse-item" href={{ route('student.batch') }}>Recent Batch</a>
-                        <a class="collapse-item" href={{ route('student.batch') }}>Previous Batch</a>
+                        <a class="collapse-item" href={{ route('student.recentbatch') }}>Recent Batch</a>
+                        <a class="collapse-item" href={{ route('student.previousbatch') }}>Previous Batch</a>
                     </div>
                 </div>
             </li>
@@ -96,8 +96,8 @@
                 <div id="collapseSeven" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Subjects</h6>
-                        <a class="collapse-item" href={{ route('student.batch') }}>Recent Subjects</a>
-                        <a class="collapse-item" href={{ route('student.batch') }}>Previous Subjects</a>
+                        <a class="collapse-item" href={{ route('student.recentbatch') }}>Recent Subjects</a>
+                        <a class="collapse-item" href={{ route('student.recentbatch') }}>Previous Subjects</a>
                     </div>
                 </div>
             </li>
