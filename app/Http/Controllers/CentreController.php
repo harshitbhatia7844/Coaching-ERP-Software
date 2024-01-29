@@ -70,6 +70,8 @@ class CentreController extends Controller
             'name' => 'default',
             'location' => 'default',
             'status' => 0,
+            'latitude' => 0,
+            'longitude' => 0,
             'centre_id' => $request->centre_id,
             'created_at' => now(),
             'updated_at' => now()
@@ -191,6 +193,8 @@ class CentreController extends Controller
             'name' => $request->name,
             'location' => $request->location,
             'status' => 1,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
             'centre_id' => $request->centre_id,
             'created_at' => now(),
             'updated_at' => now()
@@ -216,6 +220,8 @@ class CentreController extends Controller
             'branch_id' => $request->branch_id,
             'name' => $request->name,
             'location' => $request->location,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
             'centre_id' => $user->centre_id,
             'price' => '1000',
         ];
@@ -274,6 +280,8 @@ class CentreController extends Controller
             'name' => $request->name,
             'location' => $request->location,
             'status' => 1,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
             'centre_id' => $request->centre_id,
             'created_at' => now(),
             'updated_at' => now()

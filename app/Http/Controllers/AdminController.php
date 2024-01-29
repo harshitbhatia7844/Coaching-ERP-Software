@@ -18,7 +18,8 @@ class AdminController extends Controller
             'password' => 'required'
         ]);
 
-        if (Auth::guard('admin')->attempt($credentials) && DB::table('admins')
+        if (
+            Auth::guard('admin')->attempt($credentials) && DB::table('admins')
             ->where('email', $request->email)
             ->value('status')    // check status of Admin
         ) {
@@ -150,12 +151,14 @@ class AdminController extends Controller
     {
         if ($request->centre_id) {
             $branchs = DB::table('branches')
-                ->where('centre_id', $request->centre_id)
-                ->paginate(10);
+                ->join('centres', 'branches.centre_id', 'centres.centre_id')
+                ->where('branches.centre_id', $request->centre_id)
+                ->paginate(10, ['branches.*', 'centres.name as centre_name']);
             return view('admin.viewbranch', ['items' => $branchs]);
         }
         $branchs = DB::table('branches')
-            ->paginate(10);
+            ->join('centres', 'branches.centre_id', 'centres.centre_id')
+            ->paginate(10, ['branches.*', 'centres.name as centre_name']);
         return view('admin.viewbranch', ['items' => $branchs]);
     }
 
@@ -173,6 +176,8 @@ class AdminController extends Controller
             'name' => $request->name,
             'location' => $request->location,
             'status' => 0,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
             'centre_id' => $request->centre_id,
             'created_at' => now(),
             'updated_at' => now()
@@ -217,25 +222,25 @@ class AdminController extends Controller
             ->withErrors('Please login to access the dashboard.');
     }
 
-    
+
     //------------- Admin View All Activity-------------//
     public function viewactivity()
     {
         $activity = DB::table('activitys')->paginate(10);
         return view('admin.viewactivity', ['items' => $activity]);
     }
-    
+
     //------------- Admin View All Activity-------------//
     public function viewalocateactivity()
     {
         $activity = DB::table('activitys as a')
-        ->join('activitylinks as al', 'a.id', '=', 'al.activity_id')
-        ->join('centres as c', 'al.centre_id', '=', 'c.centre_id')
-        ->paginate(10,['a.id', 'a.name as a_name', 'c.centre_id', 'c.name']);
+            ->join('activitylinks as al', 'a.id', '=', 'al.activity_id')
+            ->join('centres as c', 'al.centre_id', '=', 'c.centre_id')
+            ->paginate(10, ['a.id', 'a.name as a_name', 'c.centre_id', 'c.name']);
         return view('admin.viewalocateactivity', ['items' => $activity]);
     }
 
-    
+
     //------------- Admin Create Activity-------------//
     public function createactivity()
     {
@@ -282,5 +287,55 @@ class AdminController extends Controller
         }
         return redirect(route('admin.alocateactivity'))
             ->withErrors('Failed to Create Course');
+    }
+    //------------- Admin View All Students -------------//
+    public function viewstudent(Request $request)
+    {
+        if ($request->centre_id) {
+            $students = DB::table('students')
+                ->where('centre_id', $request->centre_id)
+                ->paginate(10);
+            return view('admin.viewstudents', ['items' => $students]);
+        } else if ($request->branch_id) {
+            $students = DB::table('students')
+                ->where('branch_id', $request->branch_id)
+                ->paginate(10);
+            return view('admin.viewstudents', ['items' => $students]);
+        } else if ($request->batch_id) {
+            $students = DB::table('students as s')
+                ->join('enrollments as e', 's.id', '=', 'e.student_id')
+                ->where('e.batch_id', $request->batch_id)
+                ->paginate(10);
+            return view('admin.viewstudents', ['items' => $students]);
+        }
+        $students = DB::table('students')->paginate(10);
+        return view('admin.viewstudents', ['items' => $students]);
+    }
+
+    //------------- Adding Banner -------------//
+    public function addbanner(Request $request)
+    {
+        if ($request->hasFile('banner')) {
+            $destinationPath = 'images/banner/';
+            $file = $request->file('banner'); // will get all files
+            $file_name = $file->getClientOriginalName(); //Get file original name
+            $file->move($destinationPath, $file_name); // move files to destination folder
+            DB::table('banners')->insert([
+                'banner' => $file_name,
+                'status' => $request->status,
+                'type' => $request->type,
+            ]);
+            return redirect(route('admin.createbanner'))
+                ->withSuccess('Your Banner have been Added successfully!');
+        }
+        return redirect(route('admin.createbanner'))
+            ->withErrors('Failed to Add Banner');
+    }
+
+    //------------- Admin View Banner-------------//
+    public function viewbanner()
+    {
+        $activity = DB::table('banners')->paginate(10);
+        return view('admin.viewbanner', ['items' => $activity]);
     }
 };

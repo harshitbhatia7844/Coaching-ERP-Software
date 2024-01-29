@@ -5,9 +5,6 @@ use App\Http\Controllers\CentreController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\RazorpayController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
-use PHPUnit\Framework\Attributes\Group;
-
 
 
 Route::view('/', 'welcome')->name('welcome');
@@ -102,14 +99,18 @@ Route::prefix('/admin')->name('admin.')
             Route::get('/profile', 'profile')->name('profile');
             Route::get('/viewactivity', 'viewactivity')->name('viewactivity');
             Route::get('/viewcentre', 'viewcentre')->name('viewcentre');
+            Route::get('/viewstudent', 'viewstudent')->name('viewstudents');
             Route::get('/viewbranch', 'viewbranch')->name('viewbranch');
+            Route::get('/viewbanner', 'viewbanner')->name('viewbanner');
             Route::get('/createactivity', 'createactivity')->name('createactivity');
             Route::get('/alocateactivity', 'alocateactivity')->name('alocateactivity');
             Route::get('/viewalocateactivity', 'viewalocateactivity')->name('viewalocateactivity');
             Route::post('/store', 'store')->name('store');
+            Route::post('/addbanner', 'addbanner')->name('addbanner');
             Route::post('/addactivity', 'addactivity')->name('addactivity');
             Route::post('/addalocateactivity', 'addalocateactivity')->name('addalocateactivity');
             Route::post('/addbranch', 'addbranch')->name('addbranch');
+            Route::view('/createbanner', 'admin.createbanner')->name('createbanner');
             Route::view('/createcentre', 'admin.createcentre')->name('createcentre');
             Route::view('/createbranch', 'admin.createbranch')->name('createbranch');
             Route::view('/404', 'admin.404')->name('404');

@@ -14,8 +14,9 @@
                         <tr>
                             <th>Branch ID</th>
                             <th>Branch Name</th>
-                            <th>Branch Location</th>
-                            <th>Centre ID</th>
+                            <th>Branch Address</th>
+                            <th>Centre Name</th>
+                            <th>View Students</th>
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -23,19 +24,21 @@
                         @foreach ($items as $item)
                             <tr>
                                 <td>{{ $item->branch_id }}</td>
-                                <td>{{$item->name}}</td>
-                                <td>{{$item->location}}</td>
-                                <td>{{$item->centre_id}}</td>
+                                <td>{{ $item->name }}</td>
+                                <td>{{ $item->location }}</td>
+                                <td>{{ $item->centre_name }}</td>
+                                <td><a href="{{ route('admin.viewstudents') }}?branch_id={{ $item->branch_id }}">Students</a>
+                                </td>
                                 @if ($item->status)
-                                <td class="table-success">Paid</td>
+                                    <td class="table-success">Paid</td>
                                 @else
-                                <td class="table-warning">Unpaid</td>
+                                    <td class="table-warning">Unpaid</td>
                                 @endif
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-                {{ $items->links('pagination::bootstrap-4') }} 
+                {{ $items->links('pagination::bootstrap-4') }}
             </div>
         </div>
     </div>

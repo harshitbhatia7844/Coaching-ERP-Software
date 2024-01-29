@@ -137,6 +137,8 @@
                         <input type="text" name="branch_id" value="{{ $branch_id }}" hidden />
                         <input type="text" name="name" value="{{ $name }}" hidden />
                         <input type="text" name="location" value="{{ $location }}" hidden />
+                        <input type="text" name="latitude" value="{{ $latitude }}" hidden />
+                        <input type="text" name="longitude" value="{{ $longitude }}" hidden />
                         <input type="text" name="centre_id" value="{{ Auth::user()->centre_id }}" hidden />
                         <input type="text" name="price" value="{{ $price }}" hidden />
                     </form>

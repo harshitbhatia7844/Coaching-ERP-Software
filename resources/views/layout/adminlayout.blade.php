@@ -59,6 +59,26 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseActivity"
+                    aria-expanded="true" aria-controls="collapseActivity">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Activity</span>
+                </a>
+                <div id="collapseActivity" class="collapse" aria-labelledby="headingTwo"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Activity</h6>
+                        <a class="collapse-item" href={{ route('admin.viewactivity') }}>View Activity</a>
+                        <a class="collapse-item" href={{ route('admin.createactivity') }}>Add Activity</a>
+                        <a class="collapse-item" href={{ route('admin.viewalocateactivity') }}>View Alocated
+                            Activity</a>
+                        <a class="collapse-item" href={{ route('admin.alocateactivity') }}>Alocate Activity</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
@@ -87,20 +107,23 @@
                 </div>
             </li>
 
-            <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseActivity"
-                    aria-expanded="true" aria-controls="collapseActivity">
+                <a class="nav-link" href="{{ route('admin.viewstudents') }}">
+                    <i class="fas fa-wallet fa-fw"></i>
+                    <span>View Students</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsefour"
+                    aria-expanded="true" aria-controls="collapsefour">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Activity</span>
+                    <span>Banner</span>
                 </a>
-                <div id="collapseActivity" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapsefour" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Activity</h6>
-                        <a class="collapse-item" href={{ route('admin.viewactivity') }}>View Activity</a>
-                        <a class="collapse-item" href={{ route('admin.createactivity') }}>Add Activity</a>
-                        <a class="collapse-item" href={{ route('admin.viewalocateactivity') }}>View Alocated Activity</a>
-                        <a class="collapse-item" href={{ route('admin.alocateactivity') }}>Alocate Activity</a>
+                        <h6 class="collapse-header">Banner</h6>
+                        <a class="collapse-item" href="{{ route('admin.viewbanner') }}">View Banners</a>
+                        <a class="collapse-item" href="{{ route('admin.createbanner') }}">Add Banner</a>
                     </div>
                 </div>
             </li>
@@ -192,7 +215,7 @@
                                 </form>
                             </div>
                         </li>
-{{-- 
+                        {{-- 
                         <!-- Nav Item - Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
