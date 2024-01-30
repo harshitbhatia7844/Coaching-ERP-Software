@@ -14,6 +14,8 @@
                         <tr>
                             <th>Activity ID</th>
                             <th>Activity Name</th>
+                            <th>Activity Type</th>
+                            <th>Activity Image</th>
                             <th>Activity Status</th>
                         </tr>
                     </thead>
@@ -22,6 +24,8 @@
                             <tr>
                                 <td>{{ $item->id }}</td>
                                 <td>{{ $item->name }}</td>
+                                <td>{{ $item->type }}</td>
+                                <td><img src="/images/activity/{{$item->image}}" alt="" style="height: 50px"></td>
                                 @if ($item->id)
                                     <td class="table-success">Active</td>
                                 @else

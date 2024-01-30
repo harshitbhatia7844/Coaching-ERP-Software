@@ -116,14 +116,14 @@ class AdminController extends Controller
             'state' => 'required',
         ]);
         $name = $request->name;
-        $n =  strtoupper(substr($name,0,2));
+        $n =  strtoupper(substr($name, 0, 2));
         $city = $request->city;
-        $c =  strtoupper(substr($city,0,2));
+        $c =  strtoupper(substr($city, 0, 2));
         $state = $request->state;
-        $s =  strtoupper(substr($state,0,2));
-        $id = $n.$c.$s;
+        $s =  strtoupper(substr($state, 0, 2));
+        $id = $n . $c . $s;
         $t = DB::table('centres')->where('centre_id', 'like', $id)->count();
-        $centre_id = $id."000".++$t;
+        $centre_id = $id . "000" . ++$t;
 
         $inserted = DB::table('centres')->insert([
             'centre_id' => $centre_id,
@@ -140,7 +140,7 @@ class AdminController extends Controller
             'updated_at' => now()
         ]);
         DB::table('branches')->insert([
-            'branch_id' => $centre_id.'B001',
+            'branch_id' => $centre_id . 'B001',
             'name' => 'default',
             'location' => 'default',
             'status' => 0,
@@ -244,7 +244,7 @@ class AdminController extends Controller
         $activity = DB::table('activitys as a')
             ->join('activitylinks as al', 'a.id', '=', 'al.activity_id')
             ->join('centres as c', 'al.centre_id', '=', 'c.centre_id')
-            ->paginate(10, ['a.id', 'a.name as a_name', 'c.centre_id', 'c.name']);
+            ->paginate(10, ['a.image', 'a.type', 'a.name as a_name', 'c.centre_id', 'c.name']);
         return view('admin.viewalocateactivity', ['items' => $activity]);
     }
 
@@ -252,17 +252,20 @@ class AdminController extends Controller
     //------------- Admin Create Activity-------------//
     public function createactivity()
     {
-        $user = Auth::getUser();
-        $activity = DB::table('activitys')->orderBy('name')->get();
-        return view('admin.createactivity', ['items' => $activity]);
+        return view('admin.createactivity');
     }
 
     //------------- Adding Activity -------------//
     public function addactivity(Request $request)
     {
-        $user = Auth::getUser();
+        $destinationPath = 'images/activity/';
+        $file = $request->file('image'); // will get all files
+        $file_name = $file->getClientOriginalName(); //Get file original name
+        $file->move($destinationPath, $file_name); // move files to destination folder
         $inserted = DB::table('activitys')->insert([
             'name' => $request->name,
+            'type' => $request->type,
+            'image' => $file_name,
         ]);
 
         if ($inserted) {

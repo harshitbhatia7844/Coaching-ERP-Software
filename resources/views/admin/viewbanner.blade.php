@@ -20,7 +20,7 @@
                     <tbody>
                         @foreach ($items as $item)
                             <tr>
-                                <td><img src="../images/banner/{{$item->banner}}" alt="" style="height: 60px"></td>
+                                <td><img src="/images/banner/{{$item->banner}}" alt="" style="height: 60px"></td>
                                 @if ($item->type)
                                     <td>Lower</td>
                                 @else

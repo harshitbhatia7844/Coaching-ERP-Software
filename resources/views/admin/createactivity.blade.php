@@ -20,7 +20,7 @@
                             </ul>
                         </div>
                     @endif
-                    <form action="{{ route('admin.addactivity') }}" method="post">
+                    <form action="{{ route('admin.addactivity') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="card mb-5" style="border-radius: 15px;">
                             <div class="card-body">
@@ -28,12 +28,46 @@
                                 <div class="row align-items-center pt-4 pb-3">
                                     <div class="col-md-3 ps-5">
 
-                                        <h6 class="mb-0">Activity</h6>
+                                        <h6 class="mb-0">Activity Name</h6>
 
                                     </div>
                                     <div class="col-md-9 pe-5">
 
                                         <input class="form-control form-control-lg" type="text" name="name" placeholder="Activity Name" />
+
+                                    </div>
+                                </div>
+
+                                <hr class="mx-n3">
+                                
+                                <div class="row align-items-center pt-4 pb-3">
+                                    <div class="col-md-3 ps-5">
+
+                                        <h6 class="mb-0">Activity Type</h6>
+
+                                    </div>
+                                    <div class="col-md-9 pe-5">
+
+                                        <select name="type" class="form-control form-control-lg" id="">
+                                            <option default hidden>Select</option>
+                                            <option value="sports">Sports</option>
+                                            <option value="education">Education/Learning</option>
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                                <hr class="mx-n3">
+                                
+                                <div class="row align-items-center pt-4 pb-3">
+                                    <div class="col-md-3 ps-5">
+
+                                        <h6 class="mb-0">Activity Image</h6>
+
+                                    </div>
+                                    <div class="col-md-9 pe-5">
+
+                                        <input class="form-control form-control-lg" type="file" name="image" />
 
                                     </div>
                                 </div>

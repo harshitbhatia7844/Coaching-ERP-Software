@@ -14,8 +14,9 @@
                         <tr>
                             <th>Centre ID</th>
                             <th>Centre Name</th>
-                            {{-- <th>Activity ID</th> --}}
                             <th>Activity Name</th>
+                            <th>Activity Type</th>
+                            <th>Activity Image</th>
                             <th>Activity Status</th>
                         </tr>
                     </thead>
@@ -24,9 +25,10 @@
                             <tr>
                                 <td>{{ $item->centre_id }}</td>
                                 <td>{{ $item->name }}</td>
-                                {{-- <td>{{ $item->id }}</td> --}}
                                 <td>{{ $item->a_name }}</td>
-                                @if ($item->id)
+                                <td>{{ $item->type }}</td>
+                                <td><img src="/images/activity/{{$item->image}}" alt="" style="height: 50px"></td>
+                                @if ($item->centre_id)
                                     <td class="table-success">Active</td>
                                 @else
                                     <td class="table-warning">Inactive</td>
