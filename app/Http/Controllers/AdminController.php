@@ -104,7 +104,6 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'centre_id' => 'required',
             'name' => 'required',
             'email' => 'required|email',
             'password' => 'required',
@@ -116,9 +115,18 @@ class AdminController extends Controller
             'city' => 'required',
             'state' => 'required',
         ]);
+        $name = $request->name;
+        $n =  strtoupper(substr($name,0,2));
+        $city = $request->city;
+        $c =  strtoupper(substr($city,0,2));
+        $state = $request->state;
+        $s =  strtoupper(substr($state,0,2));
+        $id = $n.$c.$s;
+        $t = DB::table('centres')->where('centre_id', 'like', $id)->count();
+        $centre_id = $id."000".++$t;
 
         $inserted = DB::table('centres')->insert([
-            'centre_id' => $request->centre_id,
+            'centre_id' => $centre_id,
             'name' => $request->name,
             'email' => $request->email,
             'mobile_no' => $request->mobile_no,
@@ -132,7 +140,7 @@ class AdminController extends Controller
             'updated_at' => now()
         ]);
         DB::table('branches')->insert([
-            'branch_id' => $request->centre_id . '1001',
+            'branch_id' => $centre_id.'B001',
             'name' => 'default',
             'location' => 'default',
             'status' => 0,

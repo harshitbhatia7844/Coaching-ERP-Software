@@ -27,11 +27,6 @@
                                             </ul>
                                         </div>
                                     @endif
-                                    <div class="form-outline form-white mb-4">
-                                        <input type="text" id="typeidX" placeholder="Centre ID"
-                                            class="form-control form-control-lg" name="centre_id" />
-                                        <!-- <label class="form-label" for="typeidX">Centre ID</label> -->
-                                    </div>
 
                                     <div class="form-outline form-white mb-4">
                                         <input type="text" id="typeNameX" placeholder="Company Name"
