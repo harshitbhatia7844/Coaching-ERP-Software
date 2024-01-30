@@ -130,6 +130,7 @@
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                         <button class="btn btn-primary" type="submit">Pay Rs: {{ $item->price }} </button>
                         <input type="text" name="student_id" value="{{ Auth::user()->id }}" hidden />
+                        <input type="text" name="batch_id" value="{{ $item->batch_id }}" hidden />
                         <input type="text" name="amount" value="{{ $item->price }}" hidden />
                     </div>
                 </div>

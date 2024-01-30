@@ -21,6 +21,12 @@
                                                 @endforeach
                                             </ul>
                                         </div>
+                                    @elseif (session()->has('success'))
+                                        <div class="alert alert-success">
+                                            <ul>
+                                                <li>{{ session()->get('success') }}</li>
+                                            </ul>
+                                        </div>
                                     @endif
                                     <div class="form-outline form-white mb-4">
                                         <input type="email" id="typeEmailX" placeholder="Email"
@@ -41,9 +47,8 @@
                                     <p class="small mb-5 pb-lg-2"><a class="text-white-50"
                                             href="{{ route('welcome') }}">&larr; Back to Home</a></p>
                                 </div>
-
+                            </form>
                         </div>
-                        </form>
                     </div>
                 </div>
             </div>

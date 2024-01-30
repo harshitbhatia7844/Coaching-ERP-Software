@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\centre;
+use App\Models\Centre;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -52,14 +52,14 @@ class CentreController extends Controller
                 ->withErrors('User Already Exist.');
         }
         $name = $request->name;
-        $n =  strtoupper(substr($name,0,2));
+        $n =  strtoupper(substr($name, 0, 2));
         $city = $request->city;
-        $c =  strtoupper(substr($city,0,2));
+        $c =  strtoupper(substr($city, 0, 2));
         $state = $request->state;
-        $s =  strtoupper(substr($state,0,2));
-        $id = $n.$c.$s;
-        $t = DB::table('centres')->where('centre_id', 'like', $id)->count();
-        $centre_id = $id."000".++$t;
+        $s =  strtoupper(substr($state, 0, 2));
+        $id = $n . $c . $s;
+        $t = DB::table('centres')->where('centre_id', 'like', $id . '%')->count();
+        $centre_id = $id . "000" . ++$t;
         $inserted = DB::table('centres')->insert([
             'centre_id' => $centre_id,
             'name' => $request->name,
@@ -75,13 +75,13 @@ class CentreController extends Controller
             'updated_at' => now()
         ]);
         DB::table('branches')->insert([
-            'branch_id' => $centre_id.'B001',
+            'branch_id' => $centre_id . 'B001',
             'name' => 'default',
             'location' => 'default',
             'status' => 0,
             'latitude' => 0,
             'longitude' => 0,
-            'centre_id' => $request->centre_id,
+            'centre_id' => $centre_id,
             'created_at' => now(),
             'updated_at' => now()
         ]);
@@ -134,7 +134,12 @@ class CentreController extends Controller
                 ->join('branches as b', 'c.branch_id', 'b.branch_id')
                 ->where('b.centre_id', $user->centre_id)
                 ->sum('amount');
-            $students = DB::table('enrollments')->count();
+            $students = DB::table('enrollments as e')
+                ->join('batches', 'e.batch_id', 'batches.batch_id')
+                ->join('courses as c', 'batches.course_id', 'c.course_id')
+                ->join('branches as b', 'c.branch_id', 'b.branch_id')
+                ->where('b.centre_id', $user->centre_id)
+                ->count();
             return view('centres.index', ['students' => $students, 'branches' => $branches, 'fees' => $fees, 'balance' => $balance]);
         }
 
